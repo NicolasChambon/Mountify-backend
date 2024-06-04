@@ -131,3 +131,6 @@ dist
 
 # Perso
 DEPLOY.md
+
+# public/images .jpg files
+public/images/*.jpg
