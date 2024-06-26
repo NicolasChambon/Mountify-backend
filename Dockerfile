@@ -1,5 +1,5 @@
 # Utiliser une image Node officielle en tant que base
-FROM node:14
+FROM node:20
 
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /app
@@ -19,4 +19,4 @@ COPY . .
 EXPOSE 3000
 
 # Démarrer l'application
-CMD ["npm", "src/server.js"]
+CMD ["npm", "start"]
