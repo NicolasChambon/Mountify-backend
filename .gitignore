@@ -129,8 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Perso
-DEPLOY.md
-
 # public/images .jpg files
 public/images/*.jpg
+
+docker-compose.yml

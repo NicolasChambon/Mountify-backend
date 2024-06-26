@@ -1,0 +1,36 @@
+# docker-compose.yml
+
+version: '3.7'
+services:
+  postgres:
+    image: postgres:12
+    container_name: mountify-postgres-container
+    environment:
+      POSTGRES_USER: mountify
+      POSTGRES_PASSWORD: mountify
+      POSTGRES_DB: mountify
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mountify:
+    build: .
+    container_name: mountify-api-container
+    ports:
+      - "3000:3000"
+    environment:
+      BASE_URL: http://localhost
+      MOUNTIFY_PORT: 3000
+      PG_URL: postgres://<YourUserName>:<YourPassword>@mountify-postgres-container:5432/<YourDatabaseName>
+      JWT_SECRET: "<YourJwtSecret>"
+    networks:
+      - mountify-network
+    depends_on:
+      - postgres
+
+networks:
+  mountify-network:
+
+volumes:
+  postgres_data:
