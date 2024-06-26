@@ -15,7 +15,6 @@
    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
    sudo apt update
    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-   sudo usermod -aG docker $USER
    ```
 
 3. Une fois toutes les commandes lancées, se déconnecter de la session en tapant `exit`, puis se reconnecter
@@ -34,10 +33,6 @@
    ```
 
 6. Se déconnecter (commande : `exit`) puis se reconnecter (via clé SSH) au VPS pour appliquer les modifications.
-
-Pour lier GitHub à votre VPS (Virtual Private Server) sans utiliser de clé SSH (ce qui est fortement recommandé pour des raisons de sécurité), vous pouvez utiliser HTTPS pour cloner des dépôts et effectuer des pushs. Cependant, il est encore préférable de générer une clé SSH pour sécuriser cette connexion.
-
-Voici les étapes pour configurer cela :
 
 ### Étape 3. Lier le VPS à votre compte GitHub
 
