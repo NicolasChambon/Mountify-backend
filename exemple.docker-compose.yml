@@ -1,5 +1,3 @@
-# docker-compose.yml
-
 version: '3.8'
 
 services:
@@ -12,13 +10,9 @@ services:
     environment:
       - BASE_URL=http://localhost
       - MOUNTIFY_PORT=3000
-      - PG_URL=postgres://<YourUserName>:<YourPassword>@mountify-postgres-container:5432/<YourDatabaseName>
+      - PG_URL=postgres://<YourUserName>:<YourPassword>@db:5432/<YourDatabaseName>
       - JWT_SECRET="<YourJwtSecret>"
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "mountify"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    command: ["./scripts/wait-for-it.sh", "db:5432", "--", "npm", "start"]
 
   db:
     image: postgres:13
@@ -29,11 +23,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./data/initdb:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "mountify"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 volumes:
   db-data:
