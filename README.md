@@ -51,3 +51,56 @@ A centralized platform for cataloging and discovering mountains around the world
 - Mountain sports enthusiasts.
 - Mountain and nature lovers.
 - Travelers looking for new challenges and experiences in the mountains.
+
+## How to deploy
+
+#### Step 1 : Docker installation
+If it is not installed, install docker [official documentation](https://docs.docker.com/engine/install/ubuntu/).  
+
+#### Step 2 : Clone repository
+
+  ```sh
+  cd /var/www/
+  sudo git clone git@github.com:NicolasChambon/Mountify-backend.git
+  ```
+
+#### Step 3 : Install node and npm
+
+   1. **Remove previous npm versions** :
+   
+   ```sh
+   sudo apt remove npm
+   sudo apt autoremove
+   ```
+
+   2. **Install npm using nvm** :
+
+  ```sh
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  source ~/.bashrc
+  ```
+
+  3. **Install Node.js using nvm** :
+
+  ```sh
+  nvm install node
+  ```
+
+#### Step 4 : Lauch npm install
+
+  ```sh
+  cd /path/to/Mountify-backend
+  npm install
+  ```
+
+#### Step 5 : docker.compose.yml 
+
+1. Rename `exemple.docker-compose.yml` in `docker-compose.yml`
+
+2. Replace following fields : `<YourUserName>`, `<YourPassword>`, `<YourDatabaseName>` and `<YourJwtSecret>` by your personnal values.
+
+#### Step 6 : Docker Compose lauching
+
+```sh
+sudo docker-compose up --build
+```

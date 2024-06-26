@@ -133,3 +133,5 @@ dist
 public/images/*.jpg
 
 docker-compose.yml
+
+DEPLOY-full.md
