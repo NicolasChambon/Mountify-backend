@@ -99,7 +99,7 @@ If it is not installed, install docker [official documentation](https://docs.doc
 
 2. Replace following fields : `<YourUserName>`, `<YourPassword>`, `<YourDatabaseName>` and `<YourJwtSecret>` by your personnal values.
 
-#### Step 6 : Docker Compose lauching
+#### Step 6 : Docker Compose launching
 
 ```sh
 sudo docker-compose up --build
