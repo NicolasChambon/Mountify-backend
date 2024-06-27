@@ -95,9 +95,9 @@ If it is not installed, install docker [official documentation](https://docs.doc
 
 #### Step 5 : docker.compose.yml 
 
-1. Rename `exemple.docker-compose.yml` in `docker-compose.yml`
+1. Rename `exemple.env` in `.env`
 
-2. Replace following fields : `<YourUserName>`, `<YourPassword>`, `<YourDatabaseName>` and `<YourJwtSecret>` by your personnal values.
+2. Adress your personnal values.
 
 #### Step 6 : Docker Compose launching
 

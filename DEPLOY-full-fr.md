@@ -165,9 +165,9 @@ npm audit
 
 ### Étape 4 : Préparation et lancement des conteneurs Docker 
 
-1. Renommer le fichier exemple.docker-compose.yml en docker-compose.yml
+1. Renommer le fichier exemple.env en .env
 
-2. Remplacer les champs <YourUserName>, <YourPassword>, <YourDatabaseName> et <YourJwtSecret> par les valeurs appropriées.
+2. Attribuer vos valeurs personnelles.
 
 3. Lancer la commander
 
