@@ -4,22 +4,22 @@ services:
   api:
     build: .
     ports:
-      - "3000:3000"
+      - "${MOUNTIFY_PORT}:${MOUNTIFY_PORT}"
     depends_on:
       - db
     environment:
-      - BASE_URL=http://localhost
-      - MOUNTIFY_PORT=3000
-      - PG_URL=postgres://<YourUserName>:<YourPassword>@db:5432/<YourDatabaseName>
-      - JWT_SECRET="<YourJwtSecret>"
+      - BASE_URL=${BASE_URL}
+      - MOUNTIFY_PORT=${MOUNTIFY_PORT}
+      - PG_URL=${PG_URL}
+      - JWT_SECRET=${JWT_SECRET}
     command: ["./scripts/wait-for-it.sh", "db:5432", "--", "npm", "start"]
 
   db:
     image: postgres:13
     environment:
-      POSTGRES_DB: <YourDatabaseName>
-      POSTGRES_USER: <YourUserName>
-      POSTGRES_PASSWORD: <YourPassword>
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./data/initdb:/docker-entrypoint-initdb.d

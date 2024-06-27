@@ -131,7 +131,3 @@ dist
 
 # public/images .jpg files
 public/images/*.jpg
-
-docker-compose.yml
-
-DEPLOY-full.md 
