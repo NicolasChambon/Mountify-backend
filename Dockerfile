@@ -1,22 +1,27 @@
-# Utiliser une image Node officielle en tant que base
+# Use the official node 
+# image as a parent image
 FROM node:20
 
-# Définir le répertoire de travail dans le conteneur
+# Define the working directory
+# inside the container
 WORKDIR /app
 
-# Copier le fichier package.json
+# Copy the package.json file 
+# from the host to the container 
+# in the working directory
 COPY package.json .
 
-# Installer les dépendances
+# Install the dependencies
+# inside the container
 RUN npm install
 
-# Copier les fichiers et dossiers du projet dans le répertoire de travail
-# Le premier point fait référence au répertoire actuel de l'hôte
-# Le deuxième point fait référence au répertoire de travail "/app"
+# Copy the rest of the application
+# code from the host to the container
+# in the working directory
 COPY . .
 
-# Exposer le port 3000
+# Expose the port 3000
 EXPOSE 3000
 
-# Démarrer l'application
+# Start the application
 CMD ["npm", "start"]

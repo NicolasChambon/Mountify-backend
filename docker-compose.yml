@@ -1,8 +1,8 @@
-version: '3.8'
+version: '3.8' # specify docker-compose version
 
 services:
   api:
-    build: .
+    build: . # specify the directory of the Dockerfile
     ports:
       - "${MOUNTIFY_PORT}:${MOUNTIFY_PORT}"
     depends_on:
@@ -12,6 +12,10 @@ services:
       - MOUNTIFY_PORT=${MOUNTIFY_PORT}
       - PG_URL=${PG_URL}
       - JWT_SECRET=${JWT_SECRET}
+    
+    # db:5432 is the host:port of the database. 
+    # This is an argument to wait-for-it.sh
+    # -- is used to separate the wait-for-it.sh arguments from the npm start arguments
     command: ["./scripts/wait-for-it.sh", "db:5432", "--", "npm", "start"]
 
   db:
@@ -20,8 +24,10 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
+    volumes: 
+      # persist the database data by storing it in a volume
       - db-data:/var/lib/postgresql/data
+      # any .sql files in this directory will be executed on database creation
       - ./data/initdb:/docker-entrypoint-initdb.d
 
 volumes:
