@@ -8,7 +8,7 @@ import { User } from "../models/index.js";
 
 // Register a new user
 export const register = async (req, res) => {
-  const userErrors = []; // Array to store errors to display to the user
+  const errorMessages = []; // Array to store errors to display to the user
 
   // Sanitize inputs
   req.body.username = sanitizeHtml(req.body.username);
@@ -16,7 +16,7 @@ export const register = async (req, res) => {
 
   // Check if username is filled
   if (!req.body.username) {
-    userErrors.push("Veuillez renseigner un nom d'utilisateur");
+    errorMessages.push("Veuillez renseigner un nom d'utilisateur");
   }
 
   // Check if username already exists
@@ -25,7 +25,7 @@ export const register = async (req, res) => {
       where: { username: req.body.username },
     });
     if (username) {
-      userErrors.push("Ce nom d'utilisateur est déjà pris");
+      errorMessages.push("Ce nom d'utilisateur est déjà pris");
     }
   } catch (error) {
     console.error("Error while checking username", error.message);
@@ -35,16 +35,16 @@ export const register = async (req, res) => {
     });
   }
 
-  // Check username format
-  if (!/^[a-zA-Z]{3,}[a-zA-Z0-9_]*$/.test(req.body.username)) {
-    userErrors.push(
-      "Le nom d'utilisateur doit contenir au moins 3 lettres et ne peut contenir que des lettres, des chiffres et des tirets bas"
+  // Check username format :
+  if (!/^[a-zA-Z][a-zA-Z0-9_-]{2,}$/.test(req.body.username)) {
+    errorMessages.push(
+      "Le nom d'utilisateur doit : contenir au moins 3 caractères / commencer par une lettre / ne pas contenir d'espace et caractères spéciaux sauf - et _"
     );
   }
 
   // Check if email is filled
   if (!req.body.email) {
-    userErrors.push("Veuillez renseigner une adresse email");
+    errorMessages.push("Veuillez renseigner une adresse email");
   }
 
   // Check if email already exists
@@ -53,7 +53,7 @@ export const register = async (req, res) => {
       where: { email: req.body.email },
     });
     if (email) {
-      userErrors.push("Cette adresse email est déjà prise");
+      errorMessages.push("Cette adresse email est déjà prise");
     }
   } catch (error) {
     console.error("Error while checking email", error.message);
@@ -67,28 +67,38 @@ export const register = async (req, res) => {
   if (
     !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(req.body.email)
   ) {
-    userErrors.push("Veuillez renseigner une adresse email valide");
+    errorMessages.push("Veuillez renseigner une adresse email valide");
   }
 
   // Check if password is filled
   if (!req.body.password) {
-    userErrors.push("Veuillez renseigner un mot de passe");
+    errorMessages.push("Veuillez renseigner un mot de passe");
   }
 
-  // Check password format (at least 8 characters, one lowercase letter, one uppercase letter, one number and one special character)
+  // Check if password confirmation is filled
+  if (!req.body.passwordConfirm) {
+    errorMessages.push("Veuillez confirmer le mot de passe");
+  }
+
+  // Check if password and password confirmation match
+  if (req.body.password !== req.body.passwordConfirm) {
+    errorMessages.push("Les mots de passe ne correspondent pas");
+  }
+
+  // Check password format (no space, at least 8 characters, one lowercase letter, one uppercase letter, one number and one special character among !@#$%^&*()_-+={}[]:;"'|\,.<>?/`)
   if (
-    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z\d\W]{8,}$/.test(
+    !/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\];:"'\\|,.<>?/`~]).{8,}$/.test(
       req.body.password
     )
   ) {
-    userErrors.push(
-      "Le mot de passe doit contenir au moins 8 caractères, dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial"
+    errorMessages.push(
+      "Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule une lettre majuscule un chiffre un caractère spécial et aucun espace"
     );
   }
 
-  // Check if userErrors
-  if (userErrors.length > 0) {
-    return res.status(400).json({ userErrors });
+  // Check if errorMessages
+  if (errorMessages.length > 0) {
+    return res.status(400).json({ errorMessages });
   }
 
   // Hash password
@@ -127,21 +137,21 @@ export const register = async (req, res) => {
 
 // Authenticate user
 export const login = async (req, res) => {
-  const userErrors = []; // Array to store errors to display to the user
+  const errorMessages = []; // Array to store errors to display to the user
 
   // Check if username is filled
   if (!req.body.username) {
-    userErrors.push("Veuillez renseigner un nom d'utilisateur");
+    errorMessages.push("Veuillez renseigner un nom d'utilisateur");
   }
 
   // Check if password is filled
   if (!req.body.password) {
-    userErrors.push("Veuillez renseigner un mot de passe");
+    errorMessages.push("Veuillez renseigner un mot de passe");
   }
 
-  // Check if userErrors
-  if (userErrors.length > 0) {
-    return res.status(400).json({ userErrors });
+  // Check if errorMessages
+  if (errorMessages.length > 0) {
+    return res.status(400).json({ errorMessages });
   }
 
   // Check if user exists

@@ -16,7 +16,7 @@ import { Mountain, Country, Region } from "../models/index.js";
 export const listMountains = async (req, res) => {
   try {
     const mountains = await Mountain.findAll({
-      attributes: ["name", "latitude", "longitude"],
+      attributes: ["id", "name", "latitude", "longitude"],
     });
     if (!mountains) {
       return res.status(404).json({ message: "No mountains found" });
